@@ -20,13 +20,19 @@ class DuckiecallNode(object):
         self.quacker = Quacker()
 
         rospy.loginfo("[%s] has started", self.node_name)
-        breakpoint()
+        # breakpoint()
 
     def quacksCallback(self, msg_quacks):
+        rospy.loginfo("[%s] received %d quacks", self.node_name, msg_quacks.data)
+        breakpoint()
         msg_duckiecall = String()
         msg_duckiecall.data = self.quacker.get_quack_string(msg_quacks.data)
+        breakpoint()
         self.pub_duckiecall.publish(msg_duckiecall)
+        rospy.loginfo("[%s] published %s", self.node_name, msg_duckiecall.data)
 
+    def __repr__(self):
+        return self.node_name
 
 if __name__ == '__main__':
     rospy.init_node('duckiecall_node', anonymous=False)
